@@ -19,7 +19,6 @@ body {
 .container {
   width: 70%;
   height: 100%;
-  border: 2px solid red;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,27 +27,69 @@ body {
 .color-generator {
   width: 80%;
   height: 90%;
-  border: 2px solid green;
+  /*border: 2px solid green;*/
   display: grid;
   grid-template-rows: 1fr 5fr;
 }
 
 .user-input {
-  border: 2px solid orange;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.app-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
 }
 
 .color-display {
   display: grid;
   grid-template-rows: repeat(1fr, 5);
-  border: 3px solid violet;
 }
 
 .color-box {
-  border: 2px solid greenyellow;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+#start {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+#end {
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.hexaCode-box {
+  width: 100%;
+  margin: 0 7rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bgColorCode {
+  margin: 0;
+}
+
+.btn {
+  border: none;
+  border-radius: 0.3rem;
+}
+
+#generate-btn,
+#stop-btn {
+  padding: 0.3rem 1rem;
+}
+
 .copy-btn {
+  width: 4rem;
+  height: 2rem;
 }
