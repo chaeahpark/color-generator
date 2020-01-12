@@ -13,29 +13,25 @@ class ColorGenerator {
           .slice(2, 8)) + "9f"
     );
   }
-
-  searchColor(input) {
-    this.hexaCode = input;
-  }
 }
 
 const myPalette = new ColorGenerator();
-const changeColors = setInterval(showRandomColors, 3000);
 const bgColors = document.getElementsByClassName("bgColor");
 const generateBtn = document.getElementById("generate-btn");
 const stopBtn = document.getElementById("stop-btn");
 const searchBar = document.getElementById("search-bar");
-let userInput = "#";
 
 function showRandomColors() {
   for (let i = 0; i < bgColors.length; i++) {
-    let hexaCode = myPalette.randomHexaCode();
-    bgColors[i].style.backgroundColor = hexaCode;
-    bgColors[i].children[0].textContent = hexaCode;
+    let randomHexaCode = myPalette.randomHexaCode();
+    bgColors[i].style.backgroundColor = randomHexaCode;
+    bgColors[i].children[0].children[0].textContent = randomHexaCode;
   }
 }
 
 //As soon as a user opens the color generator.
+const changeColors = setInterval(showRandomColors, 3000);
+
 document.addEventListener("DOMContentLoaded", function() {
   showRandomColors();
   changeColors;
@@ -53,19 +49,16 @@ stopBtn.addEventListener("click", function(e) {
   clearInterval(changeColors);
 });
 
-//Taking a user input and show the result
-searchBar.addEventListener("keydown", function(e) {
+searchBar.addEventListener("keyup", function(e) {
   e.preventDefault();
   clearInterval(changeColors);
-  console.log(e);
 
-  if (e.key === "Backspace") {
-    userInput = userInput.concat("");
-    searchBar.value = searchBar.value.substring(0, searchBar.value.length - 1);
-  } else {
-    userInput = userInput.concat(e.key);
-    searchBar.value = userInput;
+  let colorCodeInput = document.getElementById("search-bar").value;
+  bgColors[0].style.backgroundColor = colorCodeInput;
+  bgColors[i].children[0].children[0].textContent = colorCodeInput;
+
+  for (let i = 1; i < bgColors.length; i++) {
+    bgColors[i].style.backgroundColor = "white";
+    bgColors[i].children[0].children[0].textContent = "";
   }
-  //searchBar.setAttribute("value", e.key);
-  //console.log(e.key);
 });
