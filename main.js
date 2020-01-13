@@ -31,7 +31,7 @@ function showRandomColors() {
 }
 
 //As soon as a user opens the color generator.
-const changeColors = setInterval(showRandomColors, 3000);
+const changeColors = setInterval(showRandomColors, 1000);
 
 function recoverColorBoxes() {
   bgColors[0].style.borderBottomLeftRadius = "0";
@@ -64,6 +64,7 @@ function searchModeDisplay() {
   }
 }
 
+// When the document is first loaded
 document.addEventListener("DOMContentLoaded", function() {
   showRandomColors();
   changeColors;
@@ -76,13 +77,15 @@ generateBtn.addEventListener("click", function(e) {
   When there is no e.preventDefault() 
   */
   //e.preventDefault();
-
+  recoverColorBoxes();
+  //showRandomColors();
+  /*
   if (emptyBoxes === true) {
     emptyBoxes === false;
     recoverColorBoxes();
     //showRandomColors();
   }
-
+  */
   changeColors;
 });
 
@@ -92,11 +95,13 @@ stopBtn.addEventListener("click", function(e) {
   clearInterval(changeColors);
 });
 
+// When the search bar get focused, stop generating random colors.
 searchBar.addEventListener("focus", function(e) {
   e.preventDefault;
   clearInterval(changeColors);
 });
-//When a user type in the hexa code color.
+
+//When a user type in the hexa code color, change the output display.
 searchBar.addEventListener("keyup", function(e) {
   e.preventDefault();
   searchModeDisplay();
