@@ -1,70 +1,45 @@
-class ColorGenerator {
-  constructor() {
-    this.hexaCode;
-  }
-
-  // When the user hit the generate btn
-  randomHexaCode() {
-    return (
-      (this.hexaCode =
-        "#" +
-        Math.random()
-          .toString(16)
-          .slice(2, 8)) + "9f"
-    );
-  }
-}
-
-/*
-
-const hexaCode=''
-function randomHexaCode() {
-
-}
-
-*/
-
-const myPalette = new ColorGenerator();
 const bgColors = document.getElementsByClassName("bgColor");
 const generateBtn = document.getElementById("generate-btn");
 const stopBtn = document.getElementById("stop-btn");
 const copyBtn = document.querySelectorAll("copy-btn");
 const searchBar = document.getElementById("search-bar");
+const firstColorBox = document.getElementById("start");
 
+//Generate hexa code randomly
+function randomHexaCode() {
+  let hexaCode;
+  return (
+    (hexaCode =
+      "#" +
+      Math.random()
+        .toString(16)
+        .slice(2, 8)) + "9f"
+  );
+}
+
+// Display random hexa code colors
 function showRandomColors() {
-  for (let i = 0; i < bgColors.length; i++) {
-    let randomHexaCode = myPalette.randomHexaCode();
-    bgColors[i].style.backgroundColor = randomHexaCode;
-    bgColors[i].children[0].children[0].textContent = randomHexaCode;
+  for (let bgColor of bgColors) {
+    let hexaCode = randomHexaCode();
+
+    bgColor.style.backgroundColor = hexaCode;
+    bgColor.children[0].children[0].textContent = hexaCode;
   }
 }
 
 //As soon as a user opens the color generator.
 const changeColors = setInterval(showRandomColors, 1000);
 
-function recoverColorBoxes() {
-  bgColors[0].style.borderBottomLeftRadius = "0";
-  bgColors[0].style.borderBottomRightRadius = "0";
-
-  for (let i = 0; i < bgColors.length; i++) {
-    const btn = bgColors[i].children[0].children[1];
-    const hexaCode = bgColors[i].children[0].children[0];
-    hexaCode.style.color = "black";
-    btn.style.backgroundColor = "#f0f0f0";
-    btn.style.color = "black";
-  }
-}
-
+// Change the color display when the user uses the search bar.
 function searchModeDisplay() {
   let colorCodeInput = document.getElementById("search-bar").value;
 
-  bgColors[0].style.backgroundColor = colorCodeInput;
-  bgColors[0].style.borderBottomLeftRadius = "0.5rem";
-  bgColors[0].style.borderBottomRightRadius = "0.5rem";
-  bgColors[0].children[0].children[0].textContent = colorCodeInput;
+  firstColorBox.style.backgroundColor = colorCodeInput;
+  firstColorBox.style.borderBottomLeftRadius = "0.5rem";
+  firstColorBox.style.borderBottomRightRadius = "0.5rem";
+  firstColorBox.children[0].children[0].textContent = colorCodeInput;
 
   for (let i = 1; i < bgColors.length; i++) {
-    let btn = document.getElementsByClassName("btn");
     bgColors[i].style.backgroundColor = "white";
     bgColors[i].children[0].children[0].textContent = "";
     //modify the following part.
@@ -73,20 +48,37 @@ function searchModeDisplay() {
   }
 }
 
+//Recover color boxes when the user clicks the generate button after using the search bar.
+function recoverColorBoxes() {
+  bgColors[0].style.borderBottomLeftRadius = "0";
+  bgColors[0].style.borderBottomRightRadius = "0";
+
+  for (let bgColor of bgColors) {
+    const btn = bgColor.children[0].children[1];
+    const hexaCode = bgColor.children[0].children[0];
+    hexaCode.style.color = "black";
+    btn.style.backgroundColor = "#f0f0f0";
+    btn.style.color = "black";
+  }
+}
+
+// copy hexa code.
 function copyColorCode() {
-  const copyBtn = document.querySelectorAll(".copy-btn");
-  for (let i = 0; i < copyBtn.length; i++) {
-    copyBtn[i].addEventListener("click", function(e) {
-      let pre = copyBtn[i].previousElementSibling;
-      let text = pre.textContent;
+  const copyBtns = document.querySelectorAll(".copy-btn");
+
+  for (let copyBtn of copyBtns) {
+    copyBtn.addEventListener("click", function(e) {
+      let copiedColorCode = copyBtn.previousElementSibling;
+      let text = copiedColorCode.textContent;
       console.log(text);
       const input = document.createElement("input");
       document.body.appendChild(input);
-      input.setAttribute("type", "hidden");
+      input.style = "position: absolute; left: -100px; top: -100px";
       input.value = text;
       input.focus();
       input.select();
       document.execCommand("copy");
+      document.body.removeChild(input);
     });
   }
 }
