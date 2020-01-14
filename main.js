@@ -15,12 +15,21 @@ class ColorGenerator {
   }
 }
 
+/*
+
+const hexaCode=''
+function randomHexaCode() {
+
+}
+
+*/
+
 const myPalette = new ColorGenerator();
 const bgColors = document.getElementsByClassName("bgColor");
 const generateBtn = document.getElementById("generate-btn");
 const stopBtn = document.getElementById("stop-btn");
+const copyBtn = document.querySelectorAll("copy-btn");
 const searchBar = document.getElementById("search-bar");
-let emptyBoxes = false;
 
 function showRandomColors() {
   for (let i = 0; i < bgColors.length; i++) {
@@ -64,28 +73,35 @@ function searchModeDisplay() {
   }
 }
 
+function copyColorCode() {
+  const copyBtn = document.querySelectorAll(".copy-btn");
+  for (let i = 0; i < copyBtn.length; i++) {
+    copyBtn[i].addEventListener("click", function(e) {
+      let pre = copyBtn[i].previousElementSibling;
+      let text = pre.textContent;
+      console.log(text);
+      const input = document.createElement("input");
+      document.body.appendChild(input);
+      input.setAttribute("type", "hidden");
+      input.value = text;
+      input.focus();
+      input.select();
+      document.execCommand("copy");
+    });
+  }
+}
+
 // When the document is first loaded
 document.addEventListener("DOMContentLoaded", function() {
   showRandomColors();
   changeColors;
+  //Copy button is enabled
+  copyColorCode();
 });
 
 // When a user clicked the GENERATE button, show random hexa code and its color.
 generateBtn.addEventListener("click", function(e) {
-  /* What is the difference?
-  When there is e.preventDefault()
-  When there is no e.preventDefault() 
-  */
-  //e.preventDefault();
   recoverColorBoxes();
-  //showRandomColors();
-  /*
-  if (emptyBoxes === true) {
-    emptyBoxes === false;
-    recoverColorBoxes();
-    //showRandomColors();
-  }
-  */
   changeColors;
 });
 
@@ -105,5 +121,4 @@ searchBar.addEventListener("focus", function(e) {
 searchBar.addEventListener("keyup", function(e) {
   e.preventDefault();
   searchModeDisplay();
-  emptyBoxes = true;
 });
