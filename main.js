@@ -1,4 +1,5 @@
-const bgColors = document.getElementsByClassName("bgColor");
+//https://dev.to/jess/how-do-i-use-foreach-on-dom-elements-3m9h
+const bgColors = document.querySelectorAll(".bgColor");
 const generateBtn = document.getElementById("generate-btn");
 const stopBtn = document.getElementById("stop-btn");
 const copyBtn = document.querySelectorAll("copy-btn");
@@ -13,30 +14,33 @@ function randomHexaCode() {
     "#" +
     Math.random()
       .toString(16)
-      .slice(2, 8));
+      .slice(2, 8)
+      .toUpperCase());
 }
 
 // Display random hexa code colors
 function showRandomColors() {
-  bgColors.forEach(bgColor => {
+  const randomColors = [...bgColors].forEach(bgColor => {
     let hexaCode = randomHexaCode();
     bgColor.style.backgroundColor = hexaCode;
     bgColor.children[0].children[0].textContent = hexaCode;
   });
-  /*
-  for (let bgColor of bgColors) {
-    let hexaCode = randomHexaCode();
-    bgColor.style.backgroundColor = hexaCode;
-    bgColor.children[0].children[0].textContent = hexaCode;
-  }
-  */
+  console.log("random");
+  return randomColors;
 }
 //As soon as a user opens the color generator.
-const changeColors = setInterval(showRandomColors, 1000);
+// const changeColors = setInterval(showRandomColors, 1000);
+var changeColors = setInterval(showRandomColors, 1000);
+
+function changeColorsEunchan() {
+  return setInterval(showRandomColors, 1000);
+}
 
 // Change the color display when the user uses the search bar.
 function searchModeDisplay() {
-  let colorCodeInput = document.getElementById("search-bar").value;
+  let colorCodeInput = document
+    .getElementById("search-bar")
+    .value.toUpperCase();
 
   firstColorBox.style.backgroundColor = colorCodeInput;
   firstColorBox.style.borderBottomLeftRadius = "0.5rem";
@@ -57,34 +61,25 @@ function recoverColorBoxes() {
   bgColors[0].style.borderBottomLeftRadius = "0";
   bgColors[0].style.borderBottomRightRadius = "0";
 
-  bgColors.forEach(bgColor => {
+  [...bgColors].forEach(bgColor => {
     const btn = bgColor.children[0].children[1];
     const hexaCode = bgColor.children[0].children[0];
     hexaCode.style.color = "white";
     btn.style.backgroundColor = "#f0f0f0";
     btn.style.color = "black";
   });
-  /*
-  for (let bgColor of bgColors) {
-    const btn = bgColor.children[0].children[1];
-    const hexaCode = bgColor.children[0].children[0];
-    hexaCode.style.color = "white";
-    btn.style.backgroundColor = "#f0f0f0";
-    btn.style.color = "black";
-  }
-  */
 }
 
 // copy hexa code.
 function copyColorCode() {
   const copyBtns = document.querySelectorAll(".copy-btn");
 
-  for (let copyBtn of copyBtns) {
+  [...copyBtns].forEach(copyBtn => {
     copyBtn.addEventListener("click", function(e) {
       let copiedColorCode = copyBtn.previousElementSibling;
       let text = copiedColorCode.textContent;
-      console.log(text);
       const input = document.createElement("input");
+
       document.body.appendChild(input);
       input.style = "position: absolute; left: -100px; top: -100px";
       input.value = text;
@@ -93,7 +88,7 @@ function copyColorCode() {
       document.execCommand("copy");
       document.body.removeChild(input);
     });
-  }
+  });
 }
 
 // When the document is first loaded
@@ -118,8 +113,7 @@ stopBtn.addEventListener("click", function(e) {
 });
 
 // When the search bar get focused, stop generating random colors.
-searchBar.addEventListener("focus", function(e) {
-  e.preventDefault;
+searchBar.addEventListener("focus", function() {
   clearInterval(changeColors);
 });
 
@@ -131,10 +125,11 @@ searchBar.addEventListener("keyup", function(e) {
 
 colorDisplay.addEventListener("mouseover", function() {
   clearInterval(changeColors);
+  console.log("over");
 });
 
 colorDisplay.addEventListener("mouseleave", function() {
-  showRandomColors();
-
   changeColors;
+  //setInterval(showRandomColors, 1000);
+  console.log("leave");
 });
