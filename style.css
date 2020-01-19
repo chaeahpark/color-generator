@@ -89,7 +89,9 @@ body {
 
 .bgColorCode {
   color: white;
+  opacity: 0.8;
   font-size: 1.5rem;
+  font-weight: bold;
   margin: 0;
 }
 
@@ -124,8 +126,9 @@ body {
 .copy-btn {
   width: 5rem;
   height: 2.5rem;
+  background-color: #f2f0f0;
 }
 
 .copy-btn:hover {
-  background-color: #ccc8c8;
+  background-color: #bab8b8;
 }
