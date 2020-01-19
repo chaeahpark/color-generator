@@ -29,11 +29,24 @@ function showRandomColors() {
   return randomColors;
 }
 //As soon as a user opens the color generator.
-// const changeColors = setInterval(showRandomColors, 1000);
-var changeColors = setInterval(showRandomColors, 1000);
+var isTimerRunning = false;
+var timerID = 0;
+function setColorTimer() {
+  if (!isTimerRunning) {
+    timerID = setInterval(showRandomColors, 1000);
+    isTimerRunning = true;
+    console.log("timer is working: timer id : " + timerID);
+  }
+}
 
-function changeColorsEunchan() {
-  return setInterval(showRandomColors, 1000);
+setColorTimer();
+
+function clearColorTimer() {
+  if (isTimerRunning) {
+    clearInterval(timerID);
+    isTimerRunning = false;
+    console.log("timer stoped : timer id : " + timerID);
+  }
 }
 
 // Change the color display when the user uses the search bar.
@@ -95,26 +108,27 @@ function copyColorCode() {
 document.addEventListener("DOMContentLoaded", function() {
   console.log(bgColors);
   showRandomColors();
-  changeColors;
+  setColorTimer();
   //Copy button is enabled
   copyColorCode();
 });
 
 // When a user clicked the GENERATE button, show random hexa code and its color.
 generateBtn.addEventListener("click", function(e) {
+  e.preventDefault();
   recoverColorBoxes();
-  changeColors;
+  setColorTimer();
 });
 
 // When a user clicked the STOP button, stop generating random colors.
 stopBtn.addEventListener("click", function(e) {
   e.preventDefault();
-  clearInterval(changeColors);
+  clearColorTimer();
 });
 
 // When the search bar get focused, stop generating random colors.
 searchBar.addEventListener("focus", function() {
-  clearInterval(changeColors);
+  clearColorTimer();
 });
 
 //When a user type in the hexa code color, change the output display.
@@ -124,12 +138,11 @@ searchBar.addEventListener("keyup", function(e) {
 });
 
 colorDisplay.addEventListener("mouseover", function() {
-  clearInterval(changeColors);
+  clearColorTimer();
   console.log("over");
 });
 
 colorDisplay.addEventListener("mouseleave", function() {
-  changeColors;
-  //setInterval(showRandomColors, 1000);
+  setColorTimer();
   console.log("leave");
 });
